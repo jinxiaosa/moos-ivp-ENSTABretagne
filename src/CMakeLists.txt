@@ -30,7 +30,8 @@ ADD_SUBDIRECTORY(pPipeFollowing)
 ADD_SUBDIRECTORY(pRegulator)
 ADD_SUBDIRECTORY(iTemperatureCPU)
 ADD_SUBDIRECTORY(pWallFollowing)
-ADD_SUBDIRECTORY(pValidationGate)
+# Remove by YANGRUI 27/082014, application not found
+# ADD_SUBDIRECTORY(pValidationGate)
 ADD_SUBDIRECTORY(uMapping)
 ADD_SUBDIRECTORY(uJoystick)
 
