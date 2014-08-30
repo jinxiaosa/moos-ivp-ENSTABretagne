@@ -1,16 +1,16 @@
 ##############################################################################
 # FILE:        moos-ivp-ENSTABretagne/README
 # DATE:        2013/06/07
-# DESCRIPTION: Contains information regarding the moos-ivp-ENSTABretagne repository.
+# DATE MODIFY: 2014/08/30 BY YANGRUI
+DESCRIPTION: Contains information regarding the moos-ivp-ENSTABretagne repository.
 #                                                                            
 ##############################################################################
 
 #=============================================================================
 # Introduction
 #=============================================================================
-The moos-ivp-extend repository contains examples for extending the MOOS-IvP
-Autonomy system. This includes a MOOS application and an IvP behavior.
-
+This moos-ivp-ENSTABRETAGNE fork is an extension from MOOS IvP used for CISCREA underwater vehicle mission control. 
+Code is only avaiable for Linux Ubuntu (Xubuntu suggested).For Mac user, the video program might not work (Opencv problems).
 
 #=============================================================================
 # Directory Structure
