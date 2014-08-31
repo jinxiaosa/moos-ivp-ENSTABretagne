@@ -9,8 +9,9 @@ DESCRIPTION: Contains information regarding the moos-ivp-ENSTABretagne repositor
 #=============================================================================
 # Introduction
 #=============================================================================
-This moos-ivp-ENSTABRETAGNE fork is an extension from MOOS IvP used for CISCREA underwater vehicle mission control. 
-Code is only avaiable for Linux Ubuntu (Xubuntu suggested).For Mac user, the video program might not work (Opencv problems).
+This moos-ivp-ENSTABreytagne fork is an extented mission control system for CISCREA underwater vehicle.
+ 
+The code is only avaiable for Linux (Xubuntu suggested).For Mac user, video program might encounter dirver problem (Also Opencv problems). Alternatively, you can run Parallel virtual machine.
 
 #=============================================================================
 # Directory Structure
