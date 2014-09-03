@@ -11,6 +11,9 @@
 
 #include <string>
 #include <fstream>
+// Yang Rui add unistd for usleep function
+ #include <unistd.h>
+
 #include "ColorParse.h"
 #include "constantes.h"
 

@@ -12,8 +12,10 @@
 #ifndef Camera_HEADER
 #define Camera_HEADER
 
-#include <cv.h>
-#include "highgui.h"
+// yangrui find problem here
+#include <cv.h> //available only for opencv3
+#include <highgui.h>
+
 #include "../common/constantes.h"
 #include "MOOS/libMOOS/App/MOOSApp.h"
 

@@ -1,0 +1,175 @@
+yribex@yribex:~/workspace/moos-ivp-ENSTABretagne$ ./build-ivp-ENSTABretagne.sh 
+-- CMake is running /home/yribex/moos-ivp/MOOS/MOOSCore/UseMOOS.cmake
+-- MOOS_FOUND=TRUE time to dance
+-- adding -DASYNCHRONOUS_CLIENT as required my MOOS
++++++++++++++++++++++++++++++++++++++++++
+MOOS_INCLUDE_DIRS:/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/App/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Comms/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/DB/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Utils/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/PocoBits/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/getpot/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/AppCasting/include
++++++++++++++++++++++++++++++++++++++++++
+-- CMake is running /home/yribex/moos-ivp/MOOS/MOOSGeodesy/UseMOOSGeodesy.cmake
++++++++++++++++++++++++++++++++++++++++++
+MOOSGeodesy_INCLUDE_DIRS:/home/yribex/moos-ivp/MOOS/MOOSGeodesy/libMOOSGeodesy/include
++++++++++++++++++++++++++++++++++++++++++
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/yribex/workspace/moos-ivp-ENSTABretagne/build
+[  2%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/videograbv4l2.cpp.o
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp: In member function 'bool VideoGrabV4L2::read(cv::Mat&)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: error: no matching function for call to 'cv::Mat::Mat(IplImage*)'
+   image = cv::Mat(&frame);
+                         ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note: candidates are:
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:686:14: note: cv::Mat::Mat(const cv::cuda::GpuMat&)
+     explicit Mat(const cuda::GpuMat& m);
+              ^
+/usr/local/include/opencv2/core/mat.hpp:686:14: note:   no known conversion for argument 1 from 'IplImage* {aka _IplImage*}' to 'const cv::cuda::GpuMat&'
+/usr/local/include/opencv2/core/mat.hpp:683:37: note: template<class _Tp> cv::Mat::Mat(const cv::MatCommaInitializer_<_Tp>&)
+     template<typename _Tp> explicit Mat(const MatCommaInitializer_<_Tp>& commaInitializer);
+                                     ^
+/usr/local/include/opencv2/core/mat.hpp:683:37: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const cv::MatCommaInitializer_<_Tp>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:681:37: note: template<class _Tp> cv::Mat::Mat(const cv::Point3_<_Tp>&, bool)
+     template<typename _Tp> explicit Mat(const Point3_<_Tp>& pt, bool copyData=true);
+                                     ^
+/usr/local/include/opencv2/core/mat.hpp:681:37: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const cv::Point3_<_Tp>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:679:37: note: template<class _Tp> cv::Mat::Mat(const cv::Point_<_Tp>&, bool)
+     template<typename _Tp> explicit Mat(const Point_<_Tp>& pt, bool copyData=true);
+                                     ^
+/usr/local/include/opencv2/core/mat.hpp:679:37: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const cv::Point_<_Tp>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:677:51: note: template<class _Tp, int m, int n> cv::Mat::Mat(const cv::Matx<_Tp, m, n>&, bool)
+     template<typename _Tp, int m, int n> explicit Mat(const Matx<_Tp, m, n>& mtx, bool copyData=true);
+                                                   ^
+/usr/local/include/opencv2/core/mat.hpp:677:51: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const cv::Matx<_Tp, m, n>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:675:44: note: template<class _Tp, int n> cv::Mat::Mat(const cv::Vec<_Tp, m>&, bool)
+     template<typename _Tp, int n> explicit Mat(const Vec<_Tp, n>& vec, bool copyData=true);
+                                            ^
+/usr/local/include/opencv2/core/mat.hpp:675:44: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const cv::Vec<_Tp, m>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:673:37: note: template<class _Tp> cv::Mat::Mat(const std::vector<_Tp>&, bool)
+     template<typename _Tp> explicit Mat(const std::vector<_Tp>& vec, bool copyData=false);
+                                     ^
+/usr/local/include/opencv2/core/mat.hpp:673:37: note:   template argument deduction/substitution failed:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:197:25: note:   mismatched types 'const std::vector<_Tp>' and 'IplImage* {aka _IplImage*}'
+   image = cv::Mat(&frame);
+                         ^
+In file included from /usr/local/include/opencv2/core.hpp:57:0,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.hpp:671:5: note: cv::Mat::Mat(const cv::Mat&, const cv::Range*)
+     Mat(const Mat& m, const Range* ranges);
+     ^
+/usr/local/include/opencv2/core/mat.hpp:671:5: note:   candidate expects 2 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.hpp:670:5: note: cv::Mat::Mat(const cv::Mat&, const Rect&)
+     Mat(const Mat& m, const Rect& roi);
+     ^
+/usr/local/include/opencv2/core/mat.hpp:670:5: note:   candidate expects 2 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.hpp:669:5: note: cv::Mat::Mat(const cv::Mat&, const cv::Range&, const cv::Range&)
+     Mat(const Mat& m, const Range& rowRange, const Range& colRange=Range::all());
+     ^
+/usr/local/include/opencv2/core/mat.hpp:669:5: note:   candidate expects 3 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.hpp:666:5: note: cv::Mat::Mat(int, const int*, int, void*, const size_t*)
+     Mat(int ndims, const int* sizes, int type, void* data, const size_t* steps=0);
+     ^
+/usr/local/include/opencv2/core/mat.hpp:666:5: note:   candidate expects 5 arguments, 1 provided
+In file included from /usr/local/include/opencv2/core/mat.hpp:2380:0,
+                 from /usr/local/include/opencv2/core.hpp:57,
+                 from /usr/local/include/opencv2/core/types_c.h:101,
+                 from /usr/local/include/opencv2/core/core_c.h:48,
+                 from /usr/local/include/opencv/cv.h:63,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.h:5,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iCamera/videograbv4l2.cpp:26:
+/usr/local/include/opencv2/core/mat.inl.hpp:401:1: note: cv::Mat::Mat(cv::Size, int, void*, size_t)
+ Mat::Mat(Size _sz, int _type, void* _data, size_t _step)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:401:1: note:   candidate expects 4 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:370:1: note: cv::Mat::Mat(int, int, int, void*, size_t)
+ Mat::Mat(int _rows, int _cols, int _type, void* _data, size_t _step)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:370:1: note:   candidate expects 5 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:351:1: note: cv::Mat::Mat(const cv::Mat&)
+ Mat::Mat(const Mat& m)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:351:1: note:   no known conversion for argument 1 from 'IplImage* {aka _IplImage*}' to 'const cv::Mat&'
+/usr/local/include/opencv2/core/mat.inl.hpp:342:1: note: cv::Mat::Mat(int, const int*, int, const Scalar&)
+ Mat::Mat(int _dims, const int* _sz, int _type, const Scalar& _s)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:342:1: note:   candidate expects 4 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:334:1: note: cv::Mat::Mat(int, const int*, int)
+ Mat::Mat(int _dims, const int* _sz, int _type)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:334:1: note:   candidate expects 3 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:325:1: note: cv::Mat::Mat(cv::Size, int, const Scalar&)
+ Mat::Mat(Size _sz, int _type, const Scalar& _s)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:325:1: note:   candidate expects 3 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:308:1: note: cv::Mat::Mat(int, int, int, const Scalar&)
+ Mat::Mat(int _rows, int _cols, int _type, const Scalar& _s)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:308:1: note:   candidate expects 4 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:317:1: note: cv::Mat::Mat(cv::Size, int)
+ Mat::Mat(Size _sz, int _type)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:317:1: note:   candidate expects 2 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:300:1: note: cv::Mat::Mat(int, int, int)
+ Mat::Mat(int _rows, int _cols, int _type)
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:300:1: note:   candidate expects 3 arguments, 1 provided
+/usr/local/include/opencv2/core/mat.inl.hpp:294:1: note: cv::Mat::Mat()
+ Mat::Mat()
+ ^
+/usr/local/include/opencv2/core/mat.inl.hpp:294:1: note:   candidate expects 0 arguments, 1 provided
+make[2]: *** [src/iCamera/CMakeFiles/iCamera.dir/videograbv4l2.cpp.o] Error 1
+make[1]: *** [src/iCamera/CMakeFiles/iCamera.dir/all] Error 2
+make: *** [all] Error 2
+yribex@yribex:~/workspace/moos-ivp-ENSTABretagne$ 

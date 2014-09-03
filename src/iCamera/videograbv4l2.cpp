@@ -194,7 +194,8 @@ bool VideoGrabV4L2::read(cv::Mat& image)
 	   buffers[buf.index].start, 
 	   frame.imageSize/*buf.bytesused*/);
   
-  image = cv::Mat(&frame);
+  //image = cv::Mat(&frame);  Yang rui update this code for new opencv
+      image = cv::cvarrToMat(&frame);
   
   xioctl(fd, VIDIOC_QBUF, &buf);
   

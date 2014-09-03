@@ -14,6 +14,31 @@ This moos-ivp-ENSTABreytagne fork is an extented mission control system for CISC
 The code is only avaiable for Linux (Xubuntu suggested).For Mac user, video program might encounter dirver problem (Also Opencv problems). Alternatively, you can run Parallel virtual machine.
 
 #=============================================================================
+# Support
+#=============================================================================
+To install this branch on your machine, you need:
+
+1. Working Moos-IvP program
+   
+   Follow official install docs: 
+   http://oceanai.mit.edu/moos-ivp/pmwiki/pmwiki.php?n=Site.Download
+
+2. Install opencv for the Video program (which version????)
+   
+   Follow official install docs:
+   http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html#linux-installation
+   Note: Use our command instead of offical one. We do not use IPP
+   cmake -D WITH_IPP=OFF CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+
+3. Install libv4l2
+
+   sudo apt-get install lib4l-dev  
+
+4. 
+
+5. Modbus
+
+#=============================================================================
 # Directory Structure
 #=============================================================================
 The directory structure for the moos-ivp-extend is decribed below:
@@ -84,4 +109,69 @@ variable.
 #                               END of README
 ##############################################################################
 
+
+Bug report:
+
+1. Install Opencv
+
+[ 55%] Built target pch_Generate_opencv_imgproc
+Linking CXX shared library ../../lib/libopencv_imgproc.so
+/usr/bin/ld: ../../../3rdparty/ippicv/unpack/ippicv_lnx/lib/ia32/libippicv.a(jmp_ippiResizeGetBufferSize_16s_as.s.o): relocation R_386_GOTOFF against undefined symbol `ippicvJumpIndexForMergedLibs' can not be used when making a shared object
+/usr/bin/ld: final link failed: Bad value
+collect2: error: ld returned 1 exit status
+make[2]: *** [lib/libopencv_imgproc.so.3.0.0] Error 1
+make[1]: *** [modules/imgproc/CMakeFiles/opencv_imgproc.dir/all] Error 2
+make: *** [all] Error 2
+
+Solution:
+http://wiki.labomedia.org/index.php/Installer_Opencv_3_sur_Ubuntu_14.04_Trusty
+
+
+IPP concerne Intel, inutile sur AMD http://answers.opencv.org/question/37115/opencv-249-make-error/
+
+cmake -D WITH_IPP=OFF
+
+2. Intall package
+
+1: fatal error: libv4l2.h: No such file or directory
+ #include <libv4l2.h>
+                     ^
+compilation terminated.
+make[2]: *** [src/iCamera/CMakeFiles/iCamera.dir/videograbv4l2.cpp.o] Error 1
+make[1]: *** [src/iCamera/CMakeFiles/iCamera.dir/all] Error 2
+make: *** [all] Error 2
+
+
+http://stackoverflow.com/questions/5842235/linux-videodev-h-no-such-file-or-directory-opencv-on-ubuntu-11-04
+
+sudo apt-get install libv4l-dev
+
+
+Fabrice:
+
+rmmod em28xx, modprobe em28xx card=64/67 ou juste modprobe em28xx 
+désinstaller libv4l ou la désactiver en supprimant la ligne CHECK_MODULE(libv4l1 HAVE_LIBV4L) dans CMakeLists.txt (il y a peut-être plus propre à faire) 
+cap_v4l.cpp, autosetup_capture_mode_v4l2() : mettre en 2ème position le test YUYV (quelque part au-dessus de YUV411P) pour qu'il soit choisi en priorité car yuv411p_to_rgb24() ne semble pas fonctionner correctement (bug openCV ou driver) 
+et régler en PAL en faisant un v4l2_std_id argStd = V4L2_STD_PAL;xioctl(fp, VIDIOC_S_STD, &argStd) dans try_palette_v4l2()...
+
+
+3. usleep function
+
+In file included from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/pControler/Controler_Tests.h:17:0,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/pControler/Controler_Tests.cpp:15:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/pControler/../common/Tests.h: In member function 'void Tests::afficherConclusionTests()':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/pControler/../common/Tests.h:75:63: error: 'usleep' was not declared in this scope
+      usleep(1000 * 1000 * TESTS_DUREE_AFFICHAGE_MESSAGE_ERREUR);
+                                                               ^
+make[2]: *** [src/pControler/CMakeFiles/pControler.dir/Controler_Tests.cpp.o] Error 1
+make[1]: *** [src/pControler/CMakeFiles/pControler.dir/all] Error 2
+make: *** [all] Error 2
+
+4. CV problem
+
+Problem describ in /src/buglog/4_cv_proglem
+
+http://choorucode.com/2013/07/04/opencv-error-constructing-mat-from-iplimage/
+old opencv to new opencv 3.0
+cv::Mat() to cv::cvarrToMat()
 

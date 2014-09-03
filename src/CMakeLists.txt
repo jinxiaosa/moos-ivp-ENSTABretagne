@@ -14,26 +14,26 @@ INCLUDE_DIRECTORIES(${LOCAL_LIBRARY_DIRS} /usr/local/include/opencv)
 #============================================================================
 # List the subdirectories to build...
 #============================================================================
-ADD_SUBDIRECTORY(iCamera)
-ADD_SUBDIRECTORY(iCiscrea)
+#ADD_SUBDIRECTORY(iCamera)
+#ADD_SUBDIRECTORY(iCiscrea)
 ADD_SUBDIRECTORY(iEchoSounder)
 ADD_SUBDIRECTORY(iHydrophones)
 ADD_SUBDIRECTORY(iInertialMeasurementUnit)
 ADD_SUBDIRECTORY(iModem)
 ADD_SUBDIRECTORY(iSonar)
-ADD_SUBDIRECTORY(pBuoyDetection)
+#ADD_SUBDIRECTORY(pBuoyDetection)
 ADD_SUBDIRECTORY(pControler)
 ADD_SUBDIRECTORY(pLocalization)
-ADD_SUBDIRECTORY(pLogs)
+#ADD_SUBDIRECTORY(pLogs)
 ADD_SUBDIRECTORY(pPingLocator)
-ADD_SUBDIRECTORY(pPipeFollowing)
+#ADD_SUBDIRECTORY(pPipeFollowing)
 ADD_SUBDIRECTORY(pRegulator)
 ADD_SUBDIRECTORY(iTemperatureCPU)
-ADD_SUBDIRECTORY(pWallFollowing)
+#ADD_SUBDIRECTORY(pWallFollowing)
 # Remove by YANGRUI 27/08/2014, application not found 
 # ADD_SUBDIRECTORY(pValidationGate)
-ADD_SUBDIRECTORY(uMapping)
-ADD_SUBDIRECTORY(uJoystick)
+#ADD_SUBDIRECTORY(uMapping)
+#ADD_SUBDIRECTORY(uJoystick)
 
 
 ##############################################################################
