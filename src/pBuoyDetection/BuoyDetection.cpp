@@ -18,7 +18,107 @@
 #include "BuoyDetection.h"
 #include "ColorParse.h"
 
+
+#include <opencv/cv.h>
+#include <opencv2/highgui/highgui.hpp>
+
+#include <stdio.h>
+#include <math.h>
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include <string>
+#include <stdlib.h>
+
 using namespace std;
+
+IplImage* image1 = 0;
+IplImage*imgYellowThresh=NULL;
+int c,X0,Y0,um_inf,um_sup=255;
+float X,Y;
+double posX = 0,posY = 0;
+int Hi,Hs,Si,Ss,Vi,Vs;
+int PHSV[6]={0 , 108 ,  70,  255,  150 ,  245};
+void teclado(int PHSV[6],int key);
+int saturacion(int a1, int b1, int c1);
+int indi;
+CvCapture* g_capture = NULL;
+CvFont font; 
+	char Imp[100];
+
+
+void teclado(int PHSV[6],int key)
+{
+	
+
+		
+	switch (key){
+		
+		case 49: indi=1; break;
+		case 50: indi=2; break;
+		case 51: indi=3; break;
+		case 52: indi=4; break;
+		case 53: indi=5; break;
+		case 54: indi=6; break;
+	
+				}
+
+			
+	
+if(indi==1){ switch (key){
+		
+		case  43:	PHSV[0]+=10; break;
+		case  45: 	PHSV[0]-=10; break;
+				}}
+
+if(indi==4){	switch (key){
+		
+		case  43:	PHSV[1]+=12;  break;
+		case  45:	PHSV[1]-=12;break;
+					 }	}
+if(indi==2){	switch (key){
+		
+		case  43:	PHSV[2]+=10;  break;
+		case  45:	PHSV[2]-=10;break;
+					 }	}
+if(indi==5){	switch (key){
+		
+		case  43:	PHSV[3]+=10;  break;
+		case  45:	PHSV[3]-=10;break;
+					 }	}
+if(indi==3){	switch (key){
+		
+		case  43:	PHSV[4]+=10;  break;
+		case  45:	PHSV[4]-=10;break;
+					 }	}
+if(indi==6){	switch (key){
+		
+		case  43:	PHSV[5]+=10;  break;
+		case  45:	PHSV[5]-=10;break;
+					 }	}
+
+
+
+	
+      PHSV[0]=saturacion(0,PHSV[0],360);
+	  PHSV[1]=saturacion(0,PHSV[1],360);
+	  PHSV[2]=saturacion(0,PHSV[2],255);
+	  PHSV[3]=saturacion(0,PHSV[3],255);
+	  PHSV[4]=saturacion(0,PHSV[4],255);
+	  PHSV[5]=saturacion(0,PHSV[5],255);
+
+
+}
+
+
+int saturacion(int a1, int b1, int c1)
+{
+	if(b1<a1){b1=a1;}
+	if((b1>a1)&&(b1<c1)){b1=b1;}
+	if(b1>c1){b1=c1;}
+	return b1;
+}
+	
 
 /**
  * \fn
@@ -32,18 +132,15 @@ BuoyDetection::BuoyDetection()
 	
 	cvNamedWindow("BuoyDetection", 1);
 	
-	red = CV_RGB(158, 8, 0);
-	blue = CV_RGB(19, 102, 143);
-	white = CV_RGB(255, 255, 255);
-	green = CV_RGB(30, 153, 65);
+	image1 = cvCreateImage(cvSize(LARGEUR_IMAGE_CAMERA, HAUTEUR_IMAGE_CAMERA), 8, 3);
 	
-	m_img = cvCreateImage(cvSize(LARGEUR_IMAGE_CAMERA, HAUTEUR_IMAGE_CAMERA), 8, 3);
-	img_nb = cvCreateImage(cvGetSize(m_img), 8, 1);
-	
-	channelRed = cvCreateImage(cvGetSize(m_img), 8, 1);
-	channelGreen = cvCreateImage(cvGetSize(m_img), 8, 1);
-	channelBlue = cvCreateImage(cvGetSize(m_img), 8, 1);
-	channelOrange = cvCreateImage(cvGetSize(m_img), 8, 1);
+	g_capture = cvCreateFileCapture("pelicula.avi");
+	IplImage* HSVimg = cvLoadImage( "HSV.jpg" );
+	cvNamedWindow( "Original", 1 );
+	cvNamedWindow( "FiltroRojo", 1 );
+	cvInitFont(&font,CV_FONT_HERSHEY_SIMPLEX,0.5,0.5,0,1);
+
+profondeur_auv = 0;	
 }
 
 /**
@@ -53,129 +150,8 @@ BuoyDetection::BuoyDetection()
 
 BuoyDetection::~BuoyDetection()
 {
-	cvReleaseImage(&img_nb);
-	cvReleaseImage(&channelRed);
-	cvReleaseImage(&channelGreen);
-	cvReleaseImage(&channelBlue);
-	cvReleaseImage(&channelOrange);
-	cvDestroyWindow("BuoyDetection");
-}
-
-/**
- * \fn
- * \brief Méthode calculant la position de la bouée dans l'image
- */
-
-double BuoyDetection::updatePositionBouee()
-{
-	CvPoint pt; // Pour le dessin des points sur l'image
-	uchar *data_seuillage = NULL, *data_nb = NULL;
-	seuillageTeinteOrange(m_img, m_param_valeur_seuillage, &data_seuillage, &data_nb);
-	
-	int w = cvGetSize(m_img).width;
-	int h = cvGetSize(m_img).height;
-	
-	position_x_bouee_dans_image = -1;
-	position_y_bouee_dans_image = -1;
-	
-	vector<int> points_tranches, medianes_tranches;
-	int nb_points, nb_points_total, nb_medianes, mediane_des_points, mediane_des_medianes;
-	
-	// Recherche de l'abscisse
-	nb_medianes = 0;
-	nb_points_total = 0;
-	for(int j = m_param_marge_image ; j < h - m_param_marge_image ; j++) // h tranches sont étudiées
-	{
-		nb_points = 0;
-		
-		for(int i = m_param_marge_image ; i < w - m_param_marge_image ; i ++)
-		{
-			if(data_seuillage[j * w + i] == 255)
-			{
-				pt = cvPoint(i, j);
-				cvLine(m_img, pt, pt, red, 1, DRAWING_CONNECTIVITY);
-				points_tranches.push_back(i);
-				nb_points ++;
-			}
-		}
-		
-		if(nb_points != 0 && Statistiques::ecartType(points_tranches) < m_param_ecart_type_maximal)
-		{
-			mediane_des_points = Statistiques::mediane(points_tranches);
-			medianes_tranches.push_back(mediane_des_points);
-			points_tranches.clear();
-			nb_medianes ++;
-		}
-		
-		nb_points_total += nb_points;
-	}
-	
-	if(nb_medianes != 0 && Statistiques::ecartType(medianes_tranches))
-	{
-		mediane_des_medianes = Statistiques::mediane(medianes_tranches);
-		position_x_bouee_dans_image = mediane_des_medianes;
-		medianes_tranches.clear();
-	}
-	
-	// Recherche de l'ordonnée
-	nb_medianes = 0;
-	for(int j = m_param_marge_image ; j < w - m_param_marge_image ; j++) // h tranches sont étudiées
-	{
-		nb_points = 0;
-		
-		for(int i = m_param_marge_image ; i < h - m_param_marge_image ; i ++)
-		{
-			if(data_seuillage[i * w + j] == 255)
-			{
-				pt = cvPoint(j, i);
-				cvLine(m_img, pt, pt, red, 1, DRAWING_CONNECTIVITY);
-				points_tranches.push_back(i);
-				nb_points ++;
-			}
-		}
-		
-		if(nb_points != 0 && Statistiques::ecartType(points_tranches) < m_param_ecart_type_maximal)
-		{
-			mediane_des_points = Statistiques::mediane(points_tranches);
-			medianes_tranches.push_back(mediane_des_points);
-			points_tranches.clear();
-			nb_medianes ++;
-		}
-	}
-	
-	if(nb_medianes != 0 && Statistiques::ecartType(medianes_tranches))
-	{
-		mediane_des_medianes = Statistiques::mediane(medianes_tranches);
-		position_y_bouee_dans_image = mediane_des_medianes;
-		medianes_tranches.clear();
-	}
-	
-	// La croix pointant sur le centre de la bouée :
-	cvLine(m_img, 
-		cvPoint(position_x_bouee_dans_image, 0),
-		cvPoint(position_x_bouee_dans_image, h),
-		green, 2, DRAWING_CONNECTIVITY);
-		
-	cvLine(m_img, 
-		cvPoint(0, position_y_bouee_dans_image),
-		cvPoint(w, position_y_bouee_dans_image),
-		green, 2, DRAWING_CONNECTIVITY);
-	
-	return nb_points_total;
-}
-
-/**
- * \fn
- * \brief Méthode effectuant un seuillage sur les composantes oranges de l'image
- */
- 
-void BuoyDetection::seuillageTeinteOrange(IplImage* img, int seuil, uchar **data_seuillage, uchar **data_nb)
-{
-	IplImage* imgHSV = cvCreateImage(cvGetSize(img), 8, 3);
-	cvCvtColor(img, imgHSV, CV_BGR2HSV);
-	cvInRangeS(imgHSV, cvScalar(5, 70, 20), cvScalar(30, 255, 255), channelOrange);
-	*data_seuillage = (uchar *)channelOrange->imageData;
-	*data_nb = (uchar *)img_nb->imageData;
+	cvDestroyWindow( "Original" );
+	cvDestroyWindow( "FiltroRojo" );
 }
 
 /**
@@ -186,79 +162,119 @@ void BuoyDetection::seuillageTeinteOrange(IplImage* img, int seuil, uchar **data
  
 bool BuoyDetection::OnNewMail(MOOSMSG_LIST &NewMail)
 {
-	double taux_succes;
-	bool nouveau_parametre = false;
 	MOOSMSG_LIST::iterator p;
 
 	for(p = NewMail.begin() ; p != NewMail.end() ; p++)
 	{
 		CMOOSMsg &msg = *p;
 
+		if(msg.GetKey() == "VVV_Z")
+		{
+			profondeur_auv = msg.GetDouble();
+		}
+		
 		if(msg.GetKey() == m_nom_variable_image)
 		{
-			if((int)msg.GetString().size() == m_img->imageSize)
-				memcpy(m_img->imageData, msg.GetString().data(), m_img->imageSize);
+			if((int)msg.GetString().size() == image1->imageSize)
+				memcpy(image1->imageData, msg.GetString().data(), image1->imageSize);
 			
 			else
 				cout << "Erreur : mauvaises dimensions dans la variable image \"" << m_nom_variable_image << "\" depuis la MOOSDB" << endl;
 			
-			taux_succes = updatePositionBouee();
 			
-			if(position_x_bouee_dans_image < LARGEUR_IMAGE_CAMERA / 2)
-				position_x_bouee_dans_image = -((LARGEUR_IMAGE_CAMERA / 2)- position_x_bouee_dans_image) * 100.0 / (LARGEUR_IMAGE_CAMERA / 2);
+			//-------------------------------Punto principal------------------------------------------------------
+
+		X0=image1->width/2;
+		Y0=image1->height/2;
+		cvCircle (image1, cvPoint(X0,Y0),3,CV_RGB(255,0,0),3, 8);
+		
+
+		//--------------------------------- FILTRO (HSV)----------------------------------------------------------
+		
+		// Convert the image into an HSV image
+		IplImage* imgHSV = cvCreateImage(cvGetSize(image1), 8, 3);
+		cvCvtColor(image1, imgHSV, CV_BGR2HSV);
+		IplImage* imgThreshed = cvCreateImage(cvGetSize(image1), 8, 1);
+				
+		teclado(PHSV,c);
+
+		Hi=PHSV[0];   Hs=PHSV[1];   Si=PHSV[2];  Ss=PHSV[3];   Vi=PHSV[4];  Vs=PHSV[5];
+	
+		cvInRangeS(imgHSV, cvScalar(Hi/2,Si,Vi), cvScalar(Hs/2,Ss, Vs), imgThreshed); 
+		imgYellowThresh = imgThreshed; 
+
+	
+		
+
+		////--------------------------PROCESO PARA LA OBTECION DEL CENTROIDE---------------------------------------------------------------
+
+		// Calculate the moments to estimate the position of the ball
+		CvMoments *moments = (CvMoments*)malloc(sizeof(CvMoments));
+		cvMoments(imgYellowThresh, moments, 1);
+
+		// The actual moment values
+		double moment10 = cvGetSpatialMoment(moments, 1, 0);
+		double moment01 = cvGetSpatialMoment(moments, 0, 1);
+		double area = cvGetCentralMoment(moments, 0, 0);    //Numero de pixeles encontrados
+	
+		
+		if (area<1500) //podria ser la posicion desead
+		{
+			posX=posX;    
+			posY=posY;
+			X=X;
+			Y=Y;
+
+		}
+		if(area>1500)
+		{
+			posX = moment10/area;
+			posY = moment01/area;
+
+
+			//---------------------------Punto localizado---------------------------------------------------------
+
 			
-			else
-				position_x_bouee_dans_image = (position_x_bouee_dans_image - (LARGEUR_IMAGE_CAMERA / 2)) * 100.0 / (LARGEUR_IMAGE_CAMERA / 2);
+			cvCircle (image1, cvPoint(posX,posY),3,CV_RGB(0,255,0),3, 8);
+
+			//Posicion respecto del punto principal
+			X= (posX-(image1->width/2)) ;   
+			Y=-((image1->height/2)-posY);   
+
+
 			
-			if(position_y_bouee_dans_image < HAUTEUR_IMAGE_CAMERA / 2)
-				position_y_bouee_dans_image = -((HAUTEUR_IMAGE_CAMERA / 2)- position_y_bouee_dans_image) * 100.0 / (HAUTEUR_IMAGE_CAMERA / 2);
-			
-			else
-				position_y_bouee_dans_image = (position_y_bouee_dans_image - (HAUTEUR_IMAGE_CAMERA / 2)) * 100.0 / (HAUTEUR_IMAGE_CAMERA / 2);
-			
-			Notify("BUOYDETECTION__X_POSITION", position_x_bouee_dans_image);
-			Notify("BUOYDETECTION__Y_POSITION", position_y_bouee_dans_image);
-			/*cout << taux_succes << "\t\t" << position_x_bouee_dans_image << endl;
-			if(taux_succes > 400 && position_x_bouee_dans_image < -50)
-			{
-				cout << "Vers la gauche" << endl;
-				Notify("VVV_RZ_DESIRED", -5.0);
-			}
-			
-			else if(taux_succes > 400 && position_x_bouee_dans_image > 50)
-			{
-				cout << "Vers la droite" << endl;
-				Notify("VVV_RZ_DESIRED", 5.0);
-			}
-			
-			else
-				Notify("VVV_RZ_DESIRED", 5.0); // Recherche de la bouée*/
-			
-			cvShowImage("BuoyDetection", m_img);
-			waitKey(10);
+
 		}
 
-		if(msg.GetKey() == "BUOYDETECTION__VALEUR_SEUILLAGE")
-		{
-			m_param_valeur_seuillage = msg.GetDouble();
-			nouveau_parametre = true;
-		}
+		sprintf(Imp, "X:%.0f ", X); cvPutText (image1,Imp,cvPoint(100,220), &font, cvScalar(0,0,0));
+		sprintf(Imp, "Y:%.0f ", Y); cvPutText (image1,Imp,cvPoint(200,220), &font, cvScalar(0,0,0));
+		
+		m_Comms.Notify("VVV_X_BUOY", X);
+		m_Comms.Notify("VVV_Y_BUOY", Y);
+		m_Comms.Notify("VVV_Z_BUOY", profondeur_auv);
+		
+		cvLine( image1, cvPoint(image1->width/2,0), cvPoint(image1->width/2,image1->height), CV_RGB(255,0,0),1 );
+		cvLine( image1, cvPoint(0,image1->height/2), cvPoint(image1->width,image1->height/2), CV_RGB(255,0,0),1 );
+		
+		//-------------------------------------------------------------------------------------------------------
+		printf("%d  %d  %d  %d  %d  %d  %f\n",Hi,Hs,Si,Ss,Vi,Vs,area);
+		cout<<area<<endl;
+		
+		cvFlip (imgYellowThresh,imgYellowThresh,0);
+		cvShowImage( "FiltroRojo", imgYellowThresh );
+		cvShowImage( "Original", image1 );
+			
+		
+		c = cvWaitKey(1);
+		if(c == 27) break;
 
-		if(msg.GetKey() == "BUOYDETECTION__ECART_TYPE_MAXIMAL")
-		{
-			m_param_ecart_type_maximal = msg.GetDouble();
-			nouveau_parametre = true;
-		}
 
-		if(msg.GetKey() == "BUOYDETECTION__MARGE_IMAGE")
-		{
-			m_param_marge_image = msg.GetDouble();
-			nouveau_parametre = true;
-		}
-
-		if(msg.GetKey() == "VVV_HEADING")
-		{
-			m_heading_actuel = msg.GetDouble();
+		delete moments; 
+		cvReleaseImage(&imgYellowThresh);
+		cvReleaseImage(&imgHSV);
+		
+		
+		
 		}
 		
 		#if 0 // Keep these around just for template
@@ -271,14 +287,6 @@ bool BuoyDetection::OnNewMail(MOOSMSG_LIST &NewMail)
 			bool   mdbl  = msg.IsDouble();
 			bool   mstr  = msg.IsString();
 		#endif
-	}
-	
-	if(nouveau_parametre)
-	{
-		cout << endl << "Paramètres du traitement :" << endl;
-		cout << "\tBUOYDETECTION__VALEUR_SEUILLAGE : \t\t\t" << m_param_valeur_seuillage << endl;
-		cout << "\tBUOYDETECTION__ECART_TYPE_MAXIMAL : \t\t\t" << m_param_ecart_type_maximal << endl;
-		cout << "\tBUOYDETECTION__MARGE_IMAGE : \t\t\t\t" << m_param_marge_image << endl;
 	}
 		
 	return(true);
@@ -332,16 +340,6 @@ bool BuoyDetection::OnStartUp()
 
 			if(param == "TIME_INTERVAL")
 				m_intervalle_mise_a_jour = atof(value.c_str());
-			
-			// Paramètres du traitement d'image
-			if(param == "BUOYDETECTION__VALEUR_SEUILLAGE")
-				m_param_valeur_seuillage = atof(value.c_str());
-
-			if(param == "BUOYDETECTION__ECART_TYPE_MAXIMAL")
-				m_param_ecart_type_maximal = atof(value.c_str());
-
-			if(param == "BUOYDETECTION__MARGE_IMAGE")
-				m_param_marge_image = atof(value.c_str());
 		}
 	}
 	
@@ -360,8 +358,4 @@ bool BuoyDetection::OnStartUp()
 void BuoyDetection::RegisterVariables()
 {
 	m_Comms.Register(m_nom_variable_image, m_intervalle_mise_a_jour);
-	m_Comms.Register("BUOYDETECTION__VALEUR_SEUILLAGE", 0);
-	m_Comms.Register("BUOYDETECTION__ECART_TYPE_MAXIMAL", 0);
-	m_Comms.Register("BUOYDETECTION__MARGE_IMAGE", 0);
-	m_Comms.Register("VVV_HEADING", 0);
 }

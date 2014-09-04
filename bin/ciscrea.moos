@@ -37,38 +37,74 @@ Community = ciscreaSaucE
 
 ProcessConfig = ANTLER
 {
-	Run = uPlayback
-		
 	MSBetweenLaunches = 200
 	Run = MOOSDB         				@ NewConsole = false 
 	Run = uXMS							@ NewConsole = true
 	
 	// Interfaces
-		//Run = iCiscrea					@ NewConsole = true
-		//Run = iSonar					@ NewConsole = true
-		//Run = iEchoSounder				@ NewConsole = false
+		Run = iCiscrea					@ NewConsole = true
+		Run = iSonar					@ NewConsole = false
+		Run = iEchoSounder				@ NewConsole = false
 		//Run = iModem					@ NewConsole = false ~ iModem_EMETTEUR
-		//Run = iModem					@ NewConsole = false ~ iModem_RECEPTEUR
-		//Run = iCamera					@ NewConsole = false ~ iCamera_BOTTOM
-		//Run = iCamera					@ NewConsole = false ~ iCamera_SIDE
+		//Run = iModem					@ NewConsole = true ~ iModem_RECEPTEUR
+		Run = iCamera					@ NewConsole = false ~ iCamera_BOTTOM
+		Run = iCamera					@ NewConsole = false ~ iCamera_SIDE
 		//Run = iHydrophones				@ NewConsole = false
 		//Run = iTemperatureCPU			@ NewConsole = false 
-		//Run = iInertialMeasurementUnit	@ NewConsole = false
+		Run = iInertialMeasurementUnit	@ NewConsole = false
 	
 	// Programmes
 		//Run = pLocalization				@ NewConsole = false
 		//Run = pControler				@ NewConsole = false
-		//Run = pRegulator				@ NewConsole = true
+		Run = pRegulator				@ NewConsole = false
 		//Run = pLogs						@ NewConsole = true
-		//Run = pLogger
+		Run = pLogger
 		//Run = pPingLocator				@ NewConsole = false
 		//Run = pPipeFollowing			@ NewConsole = true
-		//Run = pWallFollowing			@ NewConsole = false
+		//Run = pWallFollowing			@ NewConsole = true
 		//Run = pBuoyDetection			@ NewConsole = true
+		//Run = pAroundTheIsland				@NewConsole = true
+		//Run = pSensorViewer				@NewConsole = false
+		//Run = pSonarThdViewer				@NewConsole = false
+		Run = pWayPoints				@NewConsole = true
+		Run = pWayPointsViewer				@NewConsole = false
+		Run = pVideoCodec
+		Run = iGPSoE @NewConsole = true
 
 	// MOOSBridge
-		//Run = pMOOSBridge
+		//Run = pMOOSBridge				@ NewConsole = true
+
+	// script qualif
+	//Run = uTimerScript	@ NewConsole = true ~ uTimerScript_Surface
+	//Run = uTimerScript      @ NewConsole = true ~ uTimerScript_fromSouth
+	//Run = uTimerScript      @ NewConsole = true ~ uTimerScript_fromNorth
+	//Run = uTimerScript      @ NewConsole = true ~ uTimerScript_InCentralLine
+	//Run = uTimerScript      @ NewConsole = true ~ uTimerScript_toGate
+	//Run = uTimerScript      @ NewConsole = true ~ uTimerScript_gateCrossed
 }
+
+ProcessConfig = pWayPoints
+{
+	Z		= 2.0
+	VX		= 60.0
+}
+
+ProcessConfig = pAroundTheIsland
+{
+	// Paramètres
+	VITESSE_CONVERGENCE			= 0.5
+	ANGLE_EVITEMENT				= 60
+	ANGLE_CORRECTIF				= 20
+	DUREE_EVITEMENT				= 5
+	CAP_INITIAL					= 72
+	VITESSE_CONSTANTE			= 20
+	NOMBRE_MIN_OBSTACLES		= 5
+	DISTANCE_LIMITE_OBSTACLES	= 1
+	PROFONDEUR					= 0.5
+	SEUIL_DETECTION_SONAR		= 120
+}
+
+//#include qualif.moos
 
 ////////////////////////////////////////////
 // Logger configuration
@@ -90,10 +126,10 @@ ProcessConfig = pLogger
 	FileTimeStamp = true
 
 	WildCardPattern = *
-	WildCardOmitPattern = VVV_IMAGE*
+	WildCardOmitPattern = *VVV_IMAGE*
 
-	Log = VVV_IMAGE_BOTTOM @ 0.25
-	Log = VVV_IMAGE_SIDE @ O.25
+	Log = VCODEC_JPEG_VVV_IMAGE_BOTTOM @ 0.5
+	Log = VCODEC_JPEG_VVV_IMAGE_SIDE @ O.5
 }
 
 //////////////////////////////////////////////
@@ -104,8 +140,12 @@ ProcessConfig = pMOOSBridge
 	UDPListen = 9100
 
 	// Broadcast variables
-	UDPShare = [VVV_DISTANCE_ECHOSONDER, VVV_Z]->all@broadcast:9100
-	//UDPShare = [VVV_VX_DESIRED, VVV_VX_DESIRED]->all@broadcast:9100
+	UDPShare = [VVV_DISTANCE_ECHOSONDER, VVV_Z, VVV_HEADING_RAZOR]->all@broadcast:9100
+	UDPShare = [GPS_LON, GPS_LAT, VVV_HEADING]->all@broadcast:9100
+	UDPShare = [VCODEC_JPEG_VVV_IMAGE_BOTTOM, VCODEC_JPEG_VVV_IMAGE_SIDE]->all@broadcast:9100
+	UDPShare = [SONAR_RAW_DATA]->all@broadcast:9100
+	UDPShare = [VVV_VX_DESIRED, VVV_VX_DESIRED]->all@broadcast:9100
+	UDPShare = [VVV_CURRENT_EXTERNAL_BATTERY_1, VVV_VOLTAGE_EXTERNAL_BATTERY_1]->all@broadcast:9100
 }
 
 ProcessConfig = iCiscrea
@@ -117,21 +157,22 @@ ProcessConfig = iCiscrea
 
 ProcessConfig = pRegulator
 {
-    AppTick   = 1
-    CommsTick = 1
+    AppTick   = 4
+    CommsTick = 4
 
  //   KP_Z        = 15.0
     KP_Z        = 70.0
     KI_Z        = 1.0
     KD_Z        = 40.0
     INTEGRAL_LIMIT_Z =  3.0
-    OUTPUT_LIMIT_Z   = 100.0
+    //OUTPUT_LIMIT_Z   = 0.0
+    OUTPUT_LIMIT_Z   = 80.0
 
-	KP_HEADING = 0;
-//    KP_HEADING  = 0.15
-    KI_HEADING  = 0.0
-    KD_HEADING  = 0.0
-    INTEGRAL_LIMIT_HEADING = 0.0
+//	KP_HEADING = 0;
+    KP_HEADING  = 0.15
+    KI_HEADING  = 0.04
+    KD_HEADING  = 0.3
+    INTEGRAL_LIMIT_HEADING = 5.0
     OUTPUT_LIMIT_HEADING   = 15.0
 }
 
@@ -139,7 +180,7 @@ ProcessConfig = iCamera_BOTTOM
 {
 	VARIABLE_IMAGE_NAME = VVV_IMAGE_BOTTOM
 	IDENTIFIANT_CV_CAMERA = 1
-	DISPLAY_IMAGE = true
+	DISPLAY_IMAGE = false
 	INVERT_IMAGE = true
 }
 
@@ -147,7 +188,7 @@ ProcessConfig = iCamera_SIDE
 {
 	VARIABLE_IMAGE_NAME = VVV_IMAGE_SIDE
 	IDENTIFIANT_CV_CAMERA = 0
-	DISPLAY_IMAGE = true
+	DISPLAY_IMAGE = false
 	INVERT_IMAGE = false
 }
 
@@ -186,7 +227,7 @@ ProcessConfig = iModem_EMETTEUR
 ProcessConfig = iModem_RECEPTEUR
 {
 	RECEPTEUR = true
-	SERIAL_PORT_NAME = /dev/ttyUSB2
+	SERIAL_PORT_NAME = /dev/ttyUSB1
 }
 
 ProcessConfig = iSonar
@@ -199,9 +240,15 @@ ProcessConfig = iEchoSounder
 	SERIAL_PORT_NAME = /dev/ttyUSB3
 }
 
+ProcessConfig = pWallFollowing
+{
+    AppTick   = 4
+    CommsTick = 4
+}
+
 ProcessConfig = iInertialMeasurementUnit
 {
-	SERIAL_PORT_NAME = /dev/ttyUSB1
+	SERIAL_PORT_NAME = /dev/ttyUSB0
     AppTick   = 10
     CommsTick = 10
 }
@@ -212,27 +259,23 @@ ProcessConfig = pLogs
 	AppTick       = 1
 }
 
+ProcessConfig = iGPSoE
+{
+    AppTick   = 2
+}
+
 ProcessConfig = uXMS
 {
 	AppTick     	= 10
-	VAR				= VVV_X_DESIRED, VVV_Y_DESIRED, VVV_Z_DESIRED, VVV_RZ_DESIRED
+	VAR				= VVV_Z_DESIRED, VVV_RZ_DESIRED
 	VAR				= VVV_VX_DESIRED, VVV_VY_DESIRED, VVV_VZ_DESIRED
-	VAR				= VVV_X, VVV_Y, VVV_Z, VVV_HEADING_CISCREA, VVV_HEADING_RAZOR, VVV_HEADING_DESIRED, VVV_HEADING
+	VAR				= VVV_HEADING_DESIRED, VVV_HEADING, VVV_HEADING_RAZOR
 	VAR				= VVV_RZ
-	VAR				= VVV_SPOTLIGHTS
-	VAR				= VVV_CURRENT_EXTERNAL_BATTERY_1, VVV_CURRENT_EXTERNAL_BATTERY_2
+	VAR				= VVV_Z
 	VAR				= VVV_VOLTAGE_EXTERNAL_BATTERY_1, VVV_VOLTAGE_EXTERNAL_BATTERY_2
-	VAR				= VVV_CONSUMPTION_EXTERNAL_BATTERY_1, VVV_CONSUMPTION_EXTERNAL_BATTERY_2
-	VAR				= VVV_AUV_IDENTIFIER, VVV_AUV_NAME
-	VAR				= VVV_TEMPERATURE_CPU
-	VAR				= VVV_ON_MISSION
-	VAR				= VVV_ANOMALY_DETECTED
-	VAR				= VVV_ANOMALY_X, VVV_ANOMALY_Y, VVV_ANOMALY_Z
-	VAR				= VVV_ANOMALY_STATE
 	VAR				= VVV_DISTANCE_ECHOSOUNDER
-	VAR				= PIPEFOLLOWING__MARGE_IMAGE
-	VAR = SONAR_DISTANCE
-	//VAR				= BUOYDETECTION__X_POSITION, BUOYDETECTION__Y_POSITION, VVV_RZ_DESIRED, VVV_HEADING_DESIRED, VVV_HEADING
+	VAR				= GPS_LON, GPS_LAT
+	
 	COLOR_MAP		= VVV_Z, blue
 	COLOR_MAP		= VVV_Z_DESIREDD, blue
 	COLOR_MAP		= VVV_VZ_DESIRED, blue
@@ -241,8 +284,122 @@ ProcessConfig = uXMS
 	COLOR_MAP		= VVV_HEADING, green
 	COLOR_MAP		= VVV_HEADING_DESIRED, green
 	COLOR_MAP		= VVV_RZ, green
-	COLOR_MAP		= BUOYDETECTION__X_POSITION, red
-	COLOR_MAP		= BUOYDETECTION__Y_POSITION, red
-	COLOR_MAP		= VVV_RZ_DESIRED, red
+	
+	COLOR_MAP		= ATI_V_CONV, red
+	COLOR_MAP		= ATI_ANG_EVIT, red
+	COLOR_MAP		= ATI_DUR_EVIT, red
+	COLOR_MAP		= ATI_ANG_CORR, red
+	COLOR_MAP		= ATI_INIT_CAP, red
+	COLOR_MAP		= ATI_V_CONST, red
+	COLOR_MAP		= ATI_NB_MIN_OBST, red
+	COLOR_MAP		= ATI_DIST_LIM_OBST, red
+	COLOR_MAP		= ATI_Z, red
+	COLOR_MAP		= ATI_SEUIL_SONAR, red
+	
 	// HISTORY_VAR	= VVV_VX
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+ProcessConfig = uTimerScript_Surface
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused 	= true
+  paused	= false
+  reset_time = all-posted
+
+  condition	= SURFACE=true
+  condition	= START=true
+
+  event 	= var=VVV_Z_DESIRED,	val=0,	time=0.1
+  //event 	= var=VVV_VX_DESIRED,	val=0,	time=0.1
+}
+
+ProcessConfig = uTimerScript_fromSouth
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused        = true
+  paused	= false
+  reset_time = all-posted
+
+  condition     = SURFACE=false
+  condition	= START=true
+  condition	= VVV_X<23.5
+
+  event         = var=VVV_Z_DESIRED,    val=1.5,  time=0.1
+  event		= var=VVV_VX_DESIRED,	val=50,	time=0.1
+  event		= var=VVV_HEADING_DESIRED,	val=45,	time=0.1
+}
+
+ProcessConfig = uTimerScript_fromNorth
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused        = true
+  paused	= false
+  reset_time = all-posted
+
+  condition     = SURFACE=false
+  condition     = START=true
+  condition     = VVV_X>26.5    
+
+  event         = var=VVV_Z_DESIRED,    val=1.5,  time=0.1
+  event         = var=VVV_VX_DESIRED,       val=50, time=0.1
+  event         = var=VVV_HEADING_DESIRED,     val=-100,  time=0.1
+}
+
+ProcessConfig = uTimerScript_InCentralLine
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused        = true
+  paused	= false
+  reset_time = all-posted
+  
+  condition     = SURFACE=false
+  condition     = START=true
+  condition     = VVV_X<26.5
+  condition	= VVV_X>24.5
+
+  event         = var=IN_CENTRAL_LINE,    val=true,  time=0.1
+}
+
+ProcessConfig = uTimerScript_toGate
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused        = true
+  paused	= false
+  reset_time = all-posted
+
+  condition     = SURFACE=false
+  condition     = START=true
+  condition     = IN_CENTRAL_LINE=true
+
+  event         = var=VVV_HEADING_DESIRED,    val=-30,  time=0.1
+}
+
+ProcessConfig = uTimerScript_gateCrossed
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  //paused        = true
+  paused	= false
+  reset_time = all-posted
+
+  condition     = SURFACE=false
+  condition     = START=true
+  condition     = IN_CENTRAL_LINE=true 
+  condition	= VVV_Y>45
+
+  event         = var=SURFACE,    val=true,  time=0.1
+}
+
+

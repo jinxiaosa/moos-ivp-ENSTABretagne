@@ -12,8 +12,7 @@
 #ifndef BuoyDetection_HEADER
 #define BuoyDetection_HEADER
 
-#include <cv.h>
-#include "highgui.h"
+#include <opencv/cv.h>
 #include "../common/constantes.h"
 #include "../common/statistiques.h"
 #include "MOOS/libMOOS/App/MOOSApp.h"
@@ -43,7 +42,7 @@ class BuoyDetection : public CMOOSApp
 
 	private: // State variables
 		string			m_nom_variable_image;
-		IplImage 		*m_img;
+		IplImage 		*image1;
 		unsigned int	m_iterations;
 		double			m_timewarp;
 		double			position_x_bouee_dans_image, position_y_bouee_dans_image;
@@ -51,6 +50,7 @@ class BuoyDetection : public CMOOSApp
 		CvScalar 		red, blue, white, green;
 		double 			m_intervalle_mise_a_jour;
 		double			m_heading_actuel;
+		float			profondeur_auv;
 		
 		// Parametres
 		double m_param_valeur_seuillage;

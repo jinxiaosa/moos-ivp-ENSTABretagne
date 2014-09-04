@@ -103,7 +103,41 @@ public:
     SeaNetMsg_HeadCommand(); /*: SeaNetMsg() {
         const char msg[] = {0x40,0x30,0x30,0x30,0x43,0x0C,0x00,0xFF,0x02,0x07,0x19,0x80,0x02,0xCA,0x64,0xB0,0x03,0x0A}; //18
         m_data.assign(msg, sizeof(msg));
-    }*/    
+    }*/
+    
+    // Parameters of the device
+    struct SNRPARAMS       {
+	    int adc8on; // The head will return 4-bit packed echo data (0..15) representing the amplitude
+	    // of received echoes in a databin if it is set to 0. Otherwise, it will be in 8 bits (0..255)
+	    int cont; // Scanning will be restricted to a sector defined by the direction LeftAngleLimit 
+	    // and RightAngleLimit if it is set to 0. Otherwise, it will be a continuous rotation and 
+	    // LeftAngleLimit and RightAngleLimit will be ignored
+	    int invert; // Allow the rotation direction to be reversed if the sonar head is mounted inverted, 
+	    // i.e. when the sonar transducer boot is pointing downward rather than up (Default = 0 = Sonar 
+	    // mounted upright, transducer boot pointing up)
+	    double LeftAngleLimit; // For a sector scan (cont = 0), in degrees
+	    double RightAngleLimit; // For a sector scan (cont = 0), in degrees
+	    int VelocityOfSound; // In m/s
+	    int RangeScale; // In meters
+	    double StepAngleSize; // In degrees: Ultimate Resolution (0.225°), High Resolution (0.45°), Medium Resolution (0.9°), Low Resolution (1.8°)
+	    // StepAngleSize = (scanWidth/NSteps)
+	    int NBins; // Number of bins generated after a ping
+	    int IGain; // Initial Gain of the receiver (in units 0..210 = 0..+80dB = 0..100%)
+    };
+    
+    void setParams(const SNRPARAMS& params) {this->params = params; buildMessage();}
+    
+    void setRange(const double& range_in_m) {params.RangeScale = range_in_m; buildMessage();}
+    void setNbins(int nBins) {params.NBins = nBins; buildMessage();}
+    void setAngleStep(const double &angle_step) {params.StepAngleSize = angle_step; buildMessage();}
+    void setGain(const double &gain) {params.IGain = (int)(100.*gain/210.); buildMessage();}
+    void setContinuous(bool continuous) {params.cont = continuous; buildMessage();}
+    void setLeftLimit(const double& leftLimit) {params.LeftAngleLimit = leftLimit; buildMessage();}
+    void setRightLimit(const double &rightLimit) {params.RightAngleLimit = rightLimit; buildMessage();}
+    
+protected:
+    SNRPARAMS params;
+    void buildMessage();
 };
 
 class SeaNetMsg_HeadData : public SeaNetMsg

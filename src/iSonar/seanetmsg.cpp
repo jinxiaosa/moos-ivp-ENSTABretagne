@@ -107,46 +107,38 @@ SeaNetMsg * SeaNetMsg::fromData(const std::string &data)
 SeaNetMsg_HeadCommand::SeaNetMsg_HeadCommand()
     : SeaNetMsg()
 {
-    // Parameters of the device
-struct SNRPARAMS       {
-        int adc8on; // The head will return 4-bit packed echo data (0..15) representing the amplitude
-        // of received echoes in a databin if it is set to 0. Otherwise, it will be in 8 bits (0..255)
-        int cont; // Scanning will be restricted to a sector defined by the direction LeftAngleLimit 
-        // and RightAngleLimit if it is set to 0. Otherwise, it will be a continuous rotation and 
-        // LeftAngleLimit and RightAngleLimit will be ignored
-        int invert; // Allow the rotation direction to be reversed if the sonar head is mounted inverted, 
-        // i.e. when the sonar transducer boot is pointing downward rather than up (Default = 0 = Sonar 
-        // mounted upright, transducer boot pointing up)
-        double LeftAngleLimit; // For a sector scan (cont = 0), in degrees
-        double RightAngleLimit; // For a sector scan (cont = 0), in degrees
-        int VelocityOfSound; // In m/s
-        int RangeScale; // In meters
-        double StepAngleSize; // In degrees: Ultimate Resolution (0.225°), High Resolution (0.45°), Medium Resolution (0.9°), Low Resolution (1.8°)
-        // StepAngleSize = (scanWidth/NSteps)
-        int NBins; // Number of bins generated after a ping
-        int IGain; // Initial Gain of the receiver (in units 0..210 = 0..+80dB = 0..100%)
-};
+  // Initial parameters
+    params.adc8on = 1;
+    params.cont = 0;//1;
+    params.invert = 0;
 
-SNRPARAMS params;
-params.adc8on = 1;
-params.cont = 1;
-params.invert = 0;
-params.LeftAngleLimit = 20.0;
-params.RightAngleLimit = 50.0;
-params.VelocityOfSound = 1500;
-params.RangeScale = 100;//25;
-params.StepAngleSize = 1.8*4;
-params.NBins = 800;
-params.IGain = 95;
+    // Scan à droite
+    params.LeftAngleLimit = 70.;
+    params.RightAngleLimit = params.LeftAngleLimit+90.;
+    // Scan à gauche
+    params.LeftAngleLimit = 360 - 160.;
+    params.RightAngleLimit = 360 - 70.;
 
+    params.VelocityOfSound = 1500;
+    params.RangeScale = 5;//25;
+    params.StepAngleSize = 1.8;
+    params.NBins = 400;
+    params.IGain = 95;
+    
+    // Create message
+    buildMessage();
+}
+
+void SeaNetMsg_HeadCommand::buildMessage()
+{
         typedef uint8_t uint8;
         typedef uint16_t uint16;
-union uShort
-{
-        uint16 v;  
-        uint8 c[2];
-};
-typedef union uShort uShort;
+	union uShort
+	{
+		uint16 v;  
+		uint8 c[2];
+	};
+	typedef union uShort uShort;
 
         struct HdCtrlStruct
         {

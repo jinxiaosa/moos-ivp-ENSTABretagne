@@ -14,7 +14,7 @@
 #include "Sonar.h"
 #include "seanetmsg.h"
 
-#include <highgui.h>
+//#include <opencv2/highgui/highgui.hpp>
 
 
 using namespace std;
@@ -26,6 +26,7 @@ using namespace std;
  
 Sonar::Sonar()
 {
+	cout << "creation de l'objet sonar..." << endl;
 	m_iterations = 0;
 	m_timewarp   = 1;
 
@@ -35,17 +36,20 @@ Sonar::Sonar()
 	m_bSonarReady = false;
 	m_bPollSonar = true;
 
-	m_serial_thread.Initialise(listen_sonar_messages_thread_func, (void*)this);
-	MOOSTrace("Thread initialized\n");
+	if (m_serial_thread.Initialise(listen_sonar_messages_thread_func, (void*)this))
+	  MOOSTrace("Sonar thread initialized\n");
+	else
+	  MOOSFail("Sonar thread initialization error...\n");
 
-	img.create(360, 800, CV_8UC1);
-	img_polar.create(800, 800, CV_8UC1);
-	MOOSTrace("Img created\n");
-	cv::namedWindow("sonar");
+	//img.create(360, 800, CV_8UC1);
+	//img_polar.create(800, 800, CV_8UC1);
+	//MOOSTrace("Sonar Img created\n");
+	//cv::namedWindow("sonar");
 	//cv::namedWindow("sonar pol");
 
 	log1.open("SONAR_SCANLINES.txt", ios_base::out);
 	log2.open("SONAR_DIST.txt", ios_base::out);
+	cout << "...fine" << endl;
 }
 
 /**
@@ -70,10 +74,12 @@ bool Sonar::initialiserPortSerie(string nom_port)
 
 Sonar::~Sonar()
 {
+    MOOSTrace("iSonar: stopping aquisition thread.\n");
     m_serial_thread.Stop();
     
         log1.close();
         log2.close();
+	MOOSTrace("iSonar: finished.\n");
 }
 
 /**
@@ -100,6 +106,30 @@ bool Sonar::OnNewMail(MOOSMSG_LIST &NewMail)
 		bool   mdbl  = msg.IsDouble();
 		bool   mstr  = msg.IsString();
 		#endif
+		
+		// Mise à jour des paramètres du sonar
+		if ( msg.GetKey() == "SONAR_PARAMS" && msg.IsString() ) {
+		  string msg_val = msg.GetString();
+		  // Le message est de la forme "Range=25,Gain=45,Continuous=true"
+		  double dVal=0.0; int iVal; bool bVal;
+		  if (MOOSValFromString(dVal, msg_val, "Range", true))
+		    m_msgHeadCommand.setRange(dVal);    
+		  if (MOOSValFromString(iVal, msg_val, "nBins", true))
+		    m_msgHeadCommand.setNbins(iVal);
+		  if (MOOSValFromString(dVal, msg_val, "AngleStep", true))
+	      	m_msgHeadCommand.setAngleStep(dVal);
+		  if (MOOSValFromString(bVal, msg_val, "Continuous", true))
+	     	m_msgHeadCommand.setContinuous(bVal);
+		  if (MOOSValFromString(dVal, msg_val, "Gain", true))
+		    m_msgHeadCommand.setGain(dVal);
+		  if (MOOSValFromString(dVal, msg_val, "LeftLimit", true)){
+		    m_msgHeadCommand.setLeftLimit(dVal); cout << "limite gauche " << dVal << endl;}
+		  if (MOOSValFromString(dVal, msg_val, "RightLimit", true)){
+		    m_msgHeadCommand.setRightLimit(dVal); cout << "limite droite " << dVal << endl;}
+		  // Envoi de la commande au sondeur
+		  // TODO: vérifier que le CMOOSSerialPort est bien thread safe. Sinon, rajouter un mutex
+		  SendMessage(m_msgHeadCommand);
+		}
 	}
 
 	return(true);
@@ -130,7 +160,7 @@ bool Sonar::OnConnectToServer()
 bool Sonar::Iterate()
 {
 	m_iterations++;
-        cv::waitKey(10);
+    //    cv::waitKey(10);
 /*	
 	if(this->m_cissonar->isConnected())
 	{
@@ -145,6 +175,12 @@ bool Sonar::Iterate()
 	
 	return(true);
 }
+
+/**
+ * \fn
+ * \brief Thread d'acquisition des données sonar
+ * Attente d'un état valide, puis demande et acquisition des données en continu
+ */
 
 void Sonar::ListenSonarMessages()
 {
@@ -184,8 +220,8 @@ void Sonar::ListenSonarMessages()
             // Process message
             // cout << "Found message " << SeaNetMsg::detectMessageType(sBuf) << endl;
             SeaNetMsg snmsg(sBuf);
-            cout << "Created message with type " << snmsg.messageType() << endl;
-            snmsg.print_hex();
+            //cout << "Created message with type " << snmsg.messageType() << endl;
+            //snmsg.print_hex();
             
             if (snmsg.messageType() == SeaNetMsg::mtAlive) {
                 headInf.c = snmsg.data().at(20);
@@ -205,18 +241,18 @@ void Sonar::ListenSonarMessages()
                 // Update m_bSonarReady
                 m_bSonarReady = (!m_bNoParams) && m_bSentCfg;
                 
-                cout << "InScan:"<<headInf.bits.InScan << " NoParams:"<<headInf.bits.NoParams << " SentCfg:"<<headInf.bits.SentCfg;
+                //cout << "InScan:"<<headInf.bits.InScan << " NoParams:"<<headInf.bits.NoParams << " SentCfg:"<<headInf.bits.SentCfg;
             }
             
             if (snmsg.messageType() == SeaNetMsg::mtHeadData) {
                 const SeaNetMsg_HeadData * pHdta = reinterpret_cast<SeaNetMsg_HeadData*> (&snmsg);
                 
                 // Display
-		MOOSTrace("nBins=%d\n", pHdta->nBins());
-                uchar* line = img.ptr((int)pHdta->bearing());
-                memcpy(line, pHdta->scanlineData(), pHdta->nBins());
+		//MOOSTrace("nBins=%d\n", pHdta->nBins());
+                //uchar* line = img.ptr((int)pHdta->bearing());
+                //memcpy(line, pHdta->scanlineData(), pHdta->nBins());
                 //cvLogPolar(&img, &img_polar, cvPoint2D32f(320/2, 240/2), 40, CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS + CV_WARP_INVERSE_MAP);
-                cv::imshow("sonar", img);
+                //cv::imshow("sonar", img);
                 //cv::imshow("sonar pol", img_polar);
 
                 // MOOSDB raw data
@@ -236,7 +272,7 @@ void Sonar::ListenSonarMessages()
                 
                 stringstream ss2;
                 ss2 << "bearing=" << pHdta->bearing() << ","
-                    << "distance=" << pHdta->firstObstacleDist(20, 0.5, 100.); // thd, min, max
+                    << "distance=" << pHdta->firstObstacleDist(90, 0.5, 100.); // thd, min, max
                 Notify("SONAR_DISTANCE", ss2.str());
                 
                 log2 << MOOSGetTimeStampString() << " " << ss.str() << endl;
@@ -250,7 +286,7 @@ void Sonar::ListenSonarMessages()
                 //cout << "InScan:"<<headInf.bits.InScan << " NoParams:"<<headInf.bits.NoParams << " SentCfg:"<<headInf.bits.SentCfg;
             }
             
-            cout << endl;
+            //cout << endl;
             
             sBuf.erase(0,msg_size);
         }
@@ -265,28 +301,43 @@ void Sonar::ListenSonarMessages()
 bool Sonar::OnStartUp()
 {
 	MOOSTrace("\nSonar start up\n");
+	setlocale(LC_ALL, "C");
 	list<string> sParams;
 	m_MissionReader.EnableVerbatimQuoting(false);
 	
 	if(m_MissionReader.GetConfiguration(GetAppName(), sParams))
 	{
-		MOOSTrace("Reading configuration\n");
-		list<string>::iterator p;
-		for(p = sParams.begin() ; p != sParams.end() ; p++)
+	    MOOSTrace("iSonar: Reading configuration\n");
+	    list<string>::iterator p;
+	    for(p = sParams.begin() ; p != sParams.end() ; p++)
+	    {
+		string original_line = *p;
+		string param = stripBlankEnds(toupper(biteString(*p, '=')));
+		string value = stripBlankEnds(*p);
+
+		MOOSTrace(original_line);
+
+		if(param == "SERIAL_PORT_NAME")
 		{
-			string original_line = *p;
-			string param = stripBlankEnds(toupper(biteString(*p, '=')));
-			string value = stripBlankEnds(*p);
-
-			MOOSTrace(original_line);
-
-			if(param == "SERIAL_PORT_NAME")
-			{
-				MOOSTrace("Using %s serial port\n", value.c_str());
-				m_portName = value;
-			}
-
+		    MOOSTrace("iSonar: Using %s serial port\n", value.c_str());
+		    m_portName = value;
 		}
+		
+		if(MOOSStrCmp(param, "Range"))
+		    m_msgHeadCommand.setRange(atof(value.c_str()));
+		if(MOOSStrCmp(param, "nBins"))
+		    m_msgHeadCommand.setNbins(atoi(value.c_str()));
+		if(MOOSStrCmp(param, "AngleStep"))
+		    m_msgHeadCommand.setAngleStep(atof(value.c_str()));
+		if(MOOSStrCmp(param, "Continuous"))
+		    m_msgHeadCommand.setContinuous(MOOSStrCmp(value,"true"));
+		if(MOOSStrCmp(param, "Gain"))
+		    m_msgHeadCommand.setGain(atof(value.c_str()));
+		if(MOOSStrCmp(param, "LeftLimit"))
+		    m_msgHeadCommand.setLeftLimit(atof(value.c_str()));
+		if(MOOSStrCmp(param, "RightLimit"))
+		    m_msgHeadCommand.setRightLimit(atof(value.c_str()));
+	    }
 	}
 	else
 		MOOSTrace("No configuration read.\n");
@@ -328,7 +379,7 @@ bool Sonar::OnStartUp()
                 
         MOOSPause(50);
         cout << "HEAD COMMAND" << endl;
-        SendMessage(SeaNetMsg_HeadCommand());
+        SendMessage(m_msgHeadCommand);
         
         //////
         
@@ -343,4 +394,5 @@ bool Sonar::OnStartUp()
 void Sonar::RegisterVariables()
 {
 	// m_Comms.Register("FOOBAR", 0);
+	Register("SONAR_PARAMS", 0);
 }

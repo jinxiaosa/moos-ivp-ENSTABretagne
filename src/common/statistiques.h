@@ -12,6 +12,7 @@
 #include <string>
 #include <fstream>
 #include <cmath>
+#include <algorithm>
 #include "ColorParse.h"
 #include "constantes.h"
 
@@ -31,8 +32,27 @@ class Statistiques
 			typedef vector<int>::size_type vec_sz;
 
 			vec_sz size = vec.size();
-			if (size == 0)
-				throw domain_error("median of an empty vector");
+			/*if (size == 0)
+				throw domain_error("median of an empty vector");*/
+
+			sort(vec.begin(), vec.end());
+			vec_sz mid = size/2;
+
+			return size % 2 == 0 ? (vec[mid] + vec[mid-1]) / 2 : vec[mid];
+		}
+	
+		/**
+		 * \fn
+		 * \brief Médiane sur les valeurs d'un vecteur de float
+		 */
+		 
+		static double mediane(vector<float> vec)
+		{
+			typedef vector<float>::size_type vec_sz;
+
+			vec_sz size = vec.size();
+			/*if (size == 0)
+				throw domain_error("median of an empty vector");*/
 
 			sort(vec.begin(), vec.end());
 			vec_sz mid = size/2;

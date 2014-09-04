@@ -25,9 +25,8 @@
 	#include "MOOS/libMOOS/Utils/MOOSLinuxSerialPort.h"
 #endif
 */
-using namespace std;
 
-#include <cv.hpp>
+//#include <opencv/cv.hpp>
 
 class Sonar : public CMOOSInstrument
 {
@@ -35,7 +34,7 @@ class Sonar : public CMOOSInstrument
     
 	public:
 		Sonar();
-		bool initialiserPortSerie(string nom_port);
+		bool initialiserPortSerie(std::string nom_port);
 		~Sonar();
 
 	protected:
@@ -47,10 +46,12 @@ class Sonar : public CMOOSInstrument
                 
                void ListenSonarMessages();
                
-               bool SendMessage(const SeaNetMsg & msg) {msg.print_hex();printf("\n");return (m_Port.Write(msg.data().data(), msg.data().size()) == msg.data().size());}
+               bool SendMessage(const SeaNetMsg & msg) {/*msg.print_hex();printf("\n");*/return (m_Port.Write(msg.data().data(), (int)msg.data().size()) == (int)msg.data().size());}
 
 	private: // Configuration variables
-		string m_portName;
+		std::string m_portName;
+		SeaNetMsg_HeadCommand m_msgHeadCommand;
+
 
 	private: // State variables
 		unsigned int			m_iterations;
@@ -62,10 +63,10 @@ class Sonar : public CMOOSInstrument
                 
                 bool m_bSonarReady;
                 bool m_bPollSonar;
-                
+		                
                 CMOOSThread m_serial_thread;
                 
-                cv::Mat img, img_polar;
+                //cv::Mat img, img_polar;
                 std::ofstream log1;
                 std::ofstream log2;
 

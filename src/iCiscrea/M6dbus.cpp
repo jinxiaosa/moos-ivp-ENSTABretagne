@@ -24,7 +24,7 @@ M6dbus::M6dbus(string IP, int prt)
     on = false;
 
     //Modbus = modbus_new_tcp((char*)IP.c_str(),prt);
-    Modbus = modbus_new_rtu("/dev/ttyUSB0", 38400, 'N', 8, 1);
+    Modbus = modbus_new_rtu("/dev/ttyUSB1", 38400, 'N', 8, 1);
     modbus_set_slave(Modbus, 16);
     modbus_set_debug(Modbus, TRUE);
     modbus_set_debug(Modbus, FALSE);
@@ -94,7 +94,9 @@ bool M6dbus::getOn()
 int M6dbus::updateRegTab(uint16_t* Tab)
 {
 	//usleep(40*1000);
-	while(modbus_read_registers(Modbus,1,48,Tab) == -1);
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(modbus_read_registers(Modbus,1,48,Tab) != -1)
+			break;
     
     /*if(resultat == -1)
 		cout << termColor("red") << "Connection failed: " << modbus_strerror(errno) << endl << termColor();*/
@@ -166,8 +168,15 @@ int M6dbus::turnLightOn(int intensity)
     newReg5 = tempReg5 | newReg5;   //putting the intensity value in the register
 
     //TODO: check who comes first?
-    while(writeErr=writeReg(5,newReg5) == -1);
-    while(writeErr=writeReg(1,newReg1) == -1);
+    
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(5,newReg5) != -1)
+			break;
+    
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(1,newReg1) != -1)
+			break;
+			
     return 1;
 }
 
@@ -183,7 +192,10 @@ int M6dbus::turnLightOff()
     tempReg1=regTab[0];
     newReg1=tempReg1&0xFFF0;    //clearing the first byte
 
-    while(writeErr=writeReg(1,newReg1) == -1);
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(1,newReg1) != -1)
+			break;
+			
     return 1;
 }
 
@@ -209,8 +221,15 @@ int M6dbus::turnLightOn(int numL, int intensity)
     newReg5 = tempReg5 | newReg5;   //putting the intensity value in the register
 
     //TODO: check who comes first?
-    while(writeErr=writeReg(1,newReg1) == -1);
-    while(writeErr=writeReg(5,newReg5) == -1);
+
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(1,newReg1) != -1)
+			break;
+
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(5,newReg5) != -1)
+			break;
+			
     return 1;
 }
 
@@ -245,7 +264,10 @@ int M6dbus::turnLightOff(int numL)
         return -1;
     }
 
-    while(writeErr=writeReg(1,newReg1) == -1);
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(writeReg(1,newReg1) != -1)
+			break;
+			
     return 1;
 }
 
@@ -556,7 +578,11 @@ int M6dbus::updatePropulsors()
 	valeurs[2] = m_RegPropVert;
 	
     modbus_flush(Modbus);
-    while(modbus_write_registers(Modbus, 2, 3, valeurs) == -1);
+
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(modbus_write_registers(Modbus, 2, 3, valeurs) != -1)
+			break;
+			
     modbus_flush(Modbus);
     
     /*
@@ -882,7 +908,10 @@ bool M6dbus::getErrLink()
 
 int M6dbus::updateDepthAndDirec()
 {
-	while(modbus_read_registers(Modbus,32,2,&(regTab[31])) == -1);
+	for(int w = 0 ; w < NB_LECTURES_MAX_REGISTRES ; w ++)
+		if(modbus_read_registers(Modbus,32,2,&(regTab[31])) != -1)
+			break;
+			
 	return 1;
 }
 

@@ -78,6 +78,7 @@ bool Ciscrea::OnNewMail(MOOSMSG_LIST &NewMail)
 		
 		if(msg.GetKey() == "VVV_VX_DESIRED" && this->m_auv_ciscrea != NULL)
 		{
+			//cout << "vx recue : "<< msg.GetDouble() << endl;
 			m_auv_ciscrea->setVx(msg.GetDouble());
 			mettre_a_jour_propulseurs = true;
 		}

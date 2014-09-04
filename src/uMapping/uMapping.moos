@@ -1,9 +1,0 @@
-//------------------------------------------------
-// uMapping config block
-
-ProcessConfig = uMapping
-{
-   AppTick   = 4
-   CommsTick = 4
-}
-
