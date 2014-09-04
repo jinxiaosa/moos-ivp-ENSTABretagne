@@ -23,7 +23,11 @@ To install this branch on your machine, you need:
    Follow official install docs: 
    http://oceanai.mit.edu/moos-ivp/pmwiki/pmwiki.php?n=Site.Download
 
-2. Install opencv for the Video program (which version????)
+2. Install opencv for the Video program
+
+   Vincent: sudo apt-get install libcv-dev
+
+   Rui(Not working):
    
    Follow official install docs:
    http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html#linux-installation
@@ -34,10 +38,16 @@ To install this branch on your machine, you need:
 
    sudo apt-get install lib4l-dev  
 
-4. 
+4. Modbus
+   sudo apt-get install libmodbus-dev
 
-5. Modbus
+5. Serial Port
 
+   Needed to access serial ports without conflicts
+   (also check if the user is a member of the "dialout" group)
+   sudo apt-get remove modemmanager
+
+   
 #=============================================================================
 # Directory Structure
 #=============================================================================

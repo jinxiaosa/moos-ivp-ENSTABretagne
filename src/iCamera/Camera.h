@@ -12,14 +12,18 @@
 #ifndef Camera_HEADER
 #define Camera_HEADER
 
-/*<<<<<<< HEAD
+//<<<<<<< HEAD
 // yangrui find problem here
-#include <cv.h> //available only for opencv3
-#include <highgui.h>
-=======*/
+//#include <cv.h> //available only for opencv3
+//#include <highgui.h>
+//=======
 #include <opencv/cv.h>
 #include <opencv2/highgui/highgui.hpp>
 //>>>>>>> upstream_vinc/master
+
+// YANGRUI add here for open3 we need this header file
+#include <opencv2/highgui/highgui_c.h>
+
 
 #include "../common/constantes.h"
 #include "MOOS/libMOOS/App/MOOSApp.h"

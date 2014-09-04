@@ -1,0 +1,307 @@
+ribex@yribex:~/workspace/moos-ivp-ENSTABretagne$ ./build-ivp-ENSTABretagne.sh 
+-- CMake is running /home/yribex/moos-ivp/MOOS/MOOSCore/UseMOOS.cmake
+-- MOOS_FOUND=TRUE time to dance
+-- adding -DASYNCHRONOUS_CLIENT as required my MOOS
++++++++++++++++++++++++++++++++++++++++++
+MOOS_INCLUDE_DIRS:/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/App/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Comms/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/DB/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Utils/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/PocoBits/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/getpot/include/home/yribex/moos-ivp/MOOS/MOOSCore/Core/libMOOS/Thirdparty/AppCasting/include
++++++++++++++++++++++++++++++++++++++++++
+-- CMake is running /home/yribex/moos-ivp/MOOS/MOOSGeodesy/UseMOOSGeodesy.cmake
++++++++++++++++++++++++++++++++++++++++++
+MOOSGeodesy_INCLUDE_DIRS:/home/yribex/moos-ivp/MOOS/MOOSGeodesy/libMOOSGeodesy/include
++++++++++++++++++++++++++++++++++++++++++
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/yribex/workspace/moos-ivp-ENSTABretagne/build
+[  0%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/videograbv4l2.cpp.o
+[  1%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/Camera.cpp.o
+[  2%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/Camera_Info.cpp.o
+[  3%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/Camera_Tests.cpp.o
+[  4%] Building CXX object src/iCamera/CMakeFiles/iCamera.dir/main.cpp.o
+Linking CXX executable ../../../bin/iCamera
+[  4%] Built target iCamera
+Scanning dependencies of target iCiscrea
+[  5%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/AUV.cpp.o
+[  6%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/Matrice.cpp.o
+[  7%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/Propulseur.cpp.o
+[  8%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/Ciscrea.cpp.o
+[  9%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/Ciscrea_Info.cpp.o
+[ 10%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/Ciscrea_Tests.cpp.o
+[ 11%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/M6dbus.cpp.o
+[ 11%] Building CXX object src/iCiscrea/CMakeFiles/iCiscrea.dir/main.cpp.o
+Linking CXX executable ../../../bin/iCiscrea
+[ 11%] Built target iCiscrea
+Scanning dependencies of target iEchoSounder
+[ 12%] Building CXX object src/iEchoSounder/CMakeFiles/iEchoSounder.dir/EchoSounder.cpp.o
+[ 13%] Building CXX object src/iEchoSounder/CMakeFiles/iEchoSounder.dir/EchoSounder_Info.cpp.o
+[ 14%] Building CXX object src/iEchoSounder/CMakeFiles/iEchoSounder.dir/EchoSounder_Tests.cpp.o
+[ 15%] Building CXX object src/iEchoSounder/CMakeFiles/iEchoSounder.dir/main.cpp.o
+Linking CXX executable ../../../bin/iEchoSounder
+[ 15%] Built target iEchoSounder
+Scanning dependencies of target iHydrophones
+[ 16%] Building CXX object src/iHydrophones/CMakeFiles/iHydrophones.dir/Hydrophones.cpp.o
+[ 17%] Building CXX object src/iHydrophones/CMakeFiles/iHydrophones.dir/Hydrophones_Info.cpp.o
+[ 18%] Building CXX object src/iHydrophones/CMakeFiles/iHydrophones.dir/Hydrophones_Tests.cpp.o
+[ 19%] Building CXX object src/iHydrophones/CMakeFiles/iHydrophones.dir/main.cpp.o
+Linking CXX executable ../../../bin/iHydrophones
+[ 19%] Built target iHydrophones
+Scanning dependencies of target iInertialMeasurementUnit
+[ 20%] Building CXX object src/iInertialMeasurementUnit/CMakeFiles/iInertialMeasurementUnit.dir/RazorAHRS/RazorAHRS.cpp.o
+[ 21%] Building CXX object src/iInertialMeasurementUnit/CMakeFiles/iInertialMeasurementUnit.dir/InertialMeasurementUnit.cpp.o
+[ 21%] Building CXX object src/iInertialMeasurementUnit/CMakeFiles/iInertialMeasurementUnit.dir/InertialMeasurementUnit_Info.cpp.o
+[ 22%] Building CXX object src/iInertialMeasurementUnit/CMakeFiles/iInertialMeasurementUnit.dir/InertialMeasurementUnit_Tests.cpp.o
+[ 23%] Building CXX object src/iInertialMeasurementUnit/CMakeFiles/iInertialMeasurementUnit.dir/main.cpp.o
+Linking CXX executable ../../../bin/iInertialMeasurementUnit
+[ 23%] Built target iInertialMeasurementUnit
+Scanning dependencies of target iModem
+[ 24%] Building CXX object src/iModem/CMakeFiles/iModem.dir/Communication.cpp.o
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Communication.cpp: In static member function 'static long int Communication::conversionEnBinaire(int)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Communication.cpp:304:22: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+  sprintf(resultat, "");
+                      ^
+[ 25%] Building CXX object src/iModem/CMakeFiles/iModem.dir/ConversionsBinaireASCII.cpp.o
+[ 26%] Building CXX object src/iModem/CMakeFiles/iModem.dir/Modem.cpp.o
+[ 27%] Building CXX object src/iModem/CMakeFiles/iModem.dir/Modem_Info.cpp.o
+[ 28%] Building CXX object src/iModem/CMakeFiles/iModem.dir/Modem_Tests.cpp.o
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Modem_Tests.cpp: In function 'void launchTestsAndExitIfOk()':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Modem_Tests.cpp:33:64: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  sessionDeTests.tester(Communication::conversionEnBinaire(46131) == 1011010000110011, "Conversion binaire de 46131");
+                                                                ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Modem_Tests.cpp:34:65: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  sessionDeTests.tester(Communication::conversionEnBinaire(429487) == 1101000110110101111, "Conversion binaire 429487");
+                                                                 ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iModem/Modem_Tests.cpp:35:75: warning: overflow in implicit constant conversion [-Woverflow]
+  sessionDeTests.tester(Communication::conversionEnDecimal(1000101110101010) == 35754, "Conversion binaire de 01000101110101010");
+                                                                           ^
+[ 29%] Building CXX object src/iModem/CMakeFiles/iModem.dir/main.cpp.o
+Linking CXX executable ../../../bin/iModem
+[ 29%] Built target iModem
+Scanning dependencies of target iSonar
+[ 30%] Building CXX object src/iSonar/CMakeFiles/iSonar.dir/seanetmsg.cpp.o
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp: In static member function 'static int SeaNetMsg::numberBytesMissing(const string&, int&)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:86:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (data.size() >= full_length)
+                        ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp: In member function 'void SeaNetMsg_HeadCommand::buildMessage()':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:281:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:291:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:299:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:362:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:371:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:396:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:411:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:419:29: warning: format '%s' expects argument of type 'char*', but argument 2 has type 'int' [-Wformat=]
+                         hDev));
+                             ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iSonar/seanetmsg.cpp:6:52: note: in definition of macro 'PRINT_DEBUG_WARNING_MINIKINGCORE'
+ #define PRINT_DEBUG_WARNING_MINIKINGCORE(x) printf x 
+                                                    ^
+[ 31%] Building CXX object src/iSonar/CMakeFiles/iSonar.dir/Sonar.cpp.o
+[ 32%] Building CXX object src/iSonar/CMakeFiles/iSonar.dir/Sonar_Info.cpp.o
+[ 32%] Building CXX object src/iSonar/CMakeFiles/iSonar.dir/Sonar_Tests.cpp.o
+[ 33%] Building CXX object src/iSonar/CMakeFiles/iSonar.dir/main.cpp.o
+Linking CXX executable ../../../bin/iSonar
+[ 33%] Built target iSonar
+Scanning dependencies of target iTemperatureCPU
+[ 34%] Building CXX object src/iTemperatureCPU/CMakeFiles/iTemperatureCPU.dir/TemperatureCPU.cpp.o
+[ 35%] Building CXX object src/iTemperatureCPU/CMakeFiles/iTemperatureCPU.dir/TemperatureCPU_Info.cpp.o
+[ 36%] Building CXX object src/iTemperatureCPU/CMakeFiles/iTemperatureCPU.dir/TemperatureCPU_Tests.cpp.o
+[ 37%] Building CXX object src/iTemperatureCPU/CMakeFiles/iTemperatureCPU.dir/main.cpp.o
+Linking CXX executable ../../../bin/iTemperatureCPU
+[ 37%] Built target iTemperatureCPU
+Scanning dependencies of target iGPSoE
+[ 38%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSCore.c.o
+[ 39%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSTime.c.o
+[ 40%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSMisc.c.o
+[ 41%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSThread.c.o
+[ 42%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSCriticalSection.c.o
+[ 43%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/OSUtils/OSRS232Port.c.o
+[ 44%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/Extensions/Devices/GPSoEUtils/GPSoECore.c.o
+[ 44%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/Extensions/Devices/GPSoEUtils/GPSoECfg.c.o
+[ 45%] Building C object src/iGPSoE/CMakeFiles/iGPSoE.dir/Extensions/Devices/GPSoEUtils/GPSoEMgr.c.o
+[ 46%] Building CXX object src/iGPSoE/CMakeFiles/iGPSoE.dir/GPSoE.cpp.o
+In file included from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:18:0,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoEUtils.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.cpp:14:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h: In function 'int LaunchUDPSrv(char*, int (*)(SOCKET, void*), void*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h:1578:64: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+  if (initudpsrv(&socksrv, "0.0.0.0", port, DEFAULT_SOCK_TIMEOUT) != EXIT_SUCCESS)
+                                                                ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h: In function 'int LaunchSingleCliTCPSrv(char*, int (*)(SOCKET, void*), void*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h:1621:67: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+  if (inittcpsrv(&socksrv, "0.0.0.0", port, 1, DEFAULT_SOCK_TIMEOUT) != EXIT_SUCCESS)
+                                                                   ^
+In file included from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoEUtils.h:18:0,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.cpp:14:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h: In function 'int ReadDataGPSoE(SOCKET, double*, double*, double*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:139:55: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+   ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                       ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:153:56: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+    ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                        ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:161:55: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+   ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                       ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.cpp: In member function 'virtual bool GPSoE::Iterate()':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.cpp:113:26: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+  OpenGPSoE(&hGPSoE, SZDEV);
+                          ^
+[ 47%] Building CXX object src/iGPSoE/CMakeFiles/iGPSoE.dir/GPSoE_Info.cpp.o
+[ 48%] Building CXX object src/iGPSoE/CMakeFiles/iGPSoE.dir/GPSoE_Tests.cpp.o
+[ 49%] Building CXX object src/iGPSoE/CMakeFiles/iGPSoE.dir/main.cpp.o
+In file included from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:18:0,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoEUtils.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/main.cpp:15:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h: In function 'int LaunchUDPSrv(char*, int (*)(SOCKET, void*), void*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h:1578:64: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+  if (initudpsrv(&socksrv, "0.0.0.0", port, DEFAULT_SOCK_TIMEOUT) != EXIT_SUCCESS)
+                                                                ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h: In function 'int LaunchSingleCliTCPSrv(char*, int (*)(SOCKET, void*), void*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/OSUtils/OSNet.h:1621:67: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+  if (inittcpsrv(&socksrv, "0.0.0.0", port, 1, DEFAULT_SOCK_TIMEOUT) != EXIT_SUCCESS)
+                                                                   ^
+In file included from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoEUtils.h:18:0,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/GPSoE.h:18,
+                 from /home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/main.cpp:15:
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h: In function 'int ReadDataGPSoE(SOCKET, double*, double*, double*)':
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:139:55: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+   ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                       ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:153:56: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+    ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                        ^
+/home/yribex/workspace/moos-ivp-ENSTABretagne/src/iGPSoE/Extensions/Devices/GPSoEUtils/GPSoECore.h:161:55: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+   ptr_GPGGA = FindLatestNMEASentence("$GPGGA", recvbuf);
+                                                       ^
+Linking CXX executable ../../../bin/iGPSoE
+[ 49%] Built target iGPSoE
+Scanning dependencies of target pControler
+[ 50%] Building CXX object src/pControler/CMakeFiles/pControler.dir/Controler.cpp.o
+[ 51%] Building CXX object src/pControler/CMakeFiles/pControler.dir/Controler_Info.cpp.o
+[ 51%] Building CXX object src/pControler/CMakeFiles/pControler.dir/Controler_Tests.cpp.o
+[ 52%] Building CXX object src/pControler/CMakeFiles/pControler.dir/main.cpp.o
+Linking CXX executable ../../../bin/pControler
+[ 52%] Built target pControler
+Scanning dependencies of target pLocalization
+[ 52%] Building CXX object src/pLocalization/CMakeFiles/pLocalization.dir/Localization.cpp.o
+[ 53%] Building CXX object src/pLocalization/CMakeFiles/pLocalization.dir/Localization_Info.cpp.o
+[ 54%] Building CXX object src/pLocalization/CMakeFiles/pLocalization.dir/Localization_Tests.cpp.o
+[ 55%] Building CXX object src/pLocalization/CMakeFiles/pLocalization.dir/main.cpp.o
+Linking CXX executable ../../../bin/pLocalization
+[ 55%] Built target pLocalization
+Scanning dependencies of target pPingLocator
+[ 55%] Building CXX object src/pPingLocator/CMakeFiles/pPingLocator.dir/PingLocator.cpp.o
+[ 56%] Building CXX object src/pPingLocator/CMakeFiles/pPingLocator.dir/PingLocator_Info.cpp.o
+[ 57%] Building CXX object src/pPingLocator/CMakeFiles/pPingLocator.dir/PingLocator_Tests.cpp.o
+[ 58%] Building CXX object src/pPingLocator/CMakeFiles/pPingLocator.dir/main.cpp.o
+Linking CXX executable ../../../bin/pPingLocator
+[ 58%] Built target pPingLocator
+Scanning dependencies of target pRegulator
+[ 59%] Building CXX object src/pRegulator/CMakeFiles/pRegulator.dir/ScalarPID.cpp.o
+[ 60%] Building CXX object src/pRegulator/CMakeFiles/pRegulator.dir/Regulator.cpp.o
+[ 61%] Building CXX object src/pRegulator/CMakeFiles/pRegulator.dir/Regulator_Info.cpp.o
+[ 61%] Building CXX object src/pRegulator/CMakeFiles/pRegulator.dir/Regulator_Tests.cpp.o
+[ 62%] Building CXX object src/pRegulator/CMakeFiles/pRegulator.dir/main.cpp.o
+Linking CXX executable ../../../bin/pRegulator
+[ 62%] Built target pRegulator
+Scanning dependencies of target pLateralRegulator
+[ 63%] Building CXX object src/pLateralRegulator/CMakeFiles/pLateralRegulator.dir/ScalarPID.cpp.o
+[ 64%] Building CXX object src/pLateralRegulator/CMakeFiles/pLateralRegulator.dir/LateralRegulator.cpp.o
+[ 65%] Building CXX object src/pLateralRegulator/CMakeFiles/pLateralRegulator.dir/Regulator_Info.cpp.o
+[ 66%] Building CXX object src/pLateralRegulator/CMakeFiles/pLateralRegulator.dir/Regulator_Tests.cpp.o
+[ 67%] Building CXX object src/pLateralRegulator/CMakeFiles/pLateralRegulator.dir/main.cpp.o
+Linking CXX executable ../../../bin/pLateralRegulator
+[ 67%] Built target pLateralRegulator
+Scanning dependencies of target pValidationGate
+[ 68%] Building CXX object src/pValidationGate/CMakeFiles/pValidationGate.dir/ValidationGate.cpp.o
+[ 69%] Building CXX object src/pValidationGate/CMakeFiles/pValidationGate.dir/ValidationGate_Info.cpp.o
+[ 70%] Building CXX object src/pValidationGate/CMakeFiles/pValidationGate.dir/ValidationGate_Tests.cpp.o
+[ 71%] Building CXX object src/pValidationGate/CMakeFiles/pValidationGate.dir/main.cpp.o
+Linking CXX executable ../../../bin/pValidationGate
+[ 71%] Built target pValidationGate
+Scanning dependencies of target pWayPoints
+[ 72%] Building CXX object src/pWayPoints/CMakeFiles/pWayPoints.dir/WayPoints.cpp.o
+[ 73%] Building CXX object src/pWayPoints/CMakeFiles/pWayPoints.dir/WayPoints_Info.cpp.o
+[ 74%] Building CXX object src/pWayPoints/CMakeFiles/pWayPoints.dir/WayPoints_Tests.cpp.o
+[ 75%] Building CXX object src/pWayPoints/CMakeFiles/pWayPoints.dir/main.cpp.o
+Linking CXX executable ../../../bin/pWayPoints
+[ 75%] Built target pWayPoints
+Scanning dependencies of target pMove
+[ 76%] Building CXX object src/pMove/CMakeFiles/pMove.dir/Move.cpp.o
+[ 77%] Building CXX object src/pMove/CMakeFiles/pMove.dir/IMove.cpp.o
+[ 78%] Building CXX object src/pMove/CMakeFiles/pMove.dir/Move_Info.cpp.o
+[ 79%] Building CXX object src/pMove/CMakeFiles/pMove.dir/main.cpp.o
+[ 80%] Building CXX object src/pMove/CMakeFiles/pMove.dir/state.cpp.o
+[ 81%] Building CXX object src/pMove/CMakeFiles/pMove.dir/autom.cpp.o
+[ 82%] Building CXX object src/pMove/CMakeFiles/pMove.dir/sonar.cpp.o
+[ 83%] Building C object src/pMove/CMakeFiles/pMove.dir/localisation.c.o
+Linking CXX executable ../../../bin/pMove
+[ 83%] Built target pMove
+Scanning dependencies of target pLoc
+[ 84%] Building CXX object src/pLoc/CMakeFiles/pLoc.dir/Loc.cpp.o
+[ 85%] Building CXX object src/pLoc/CMakeFiles/pLoc.dir/Loc_Info.cpp.o
+[ 86%] Building C object src/pLoc/CMakeFiles/pLoc.dir/localisation.c.o
+[ 87%] Building CXX object src/pLoc/CMakeFiles/pLoc.dir/sonar.cpp.o
+[ 88%] Building CXX object src/pLoc/CMakeFiles/pLoc.dir/main.cpp.o
+Linking CXX executable ../../../bin/pLoc
+[ 88%] Built target pLoc
+Scanning dependencies of target pSimulateur
+[ 89%] Building CXX object src/pSimulateur/CMakeFiles/pSimulateur.dir/Simulateur.cpp.o
+[ 90%] Building CXX object src/pSimulateur/CMakeFiles/pSimulateur.dir/Simulateur_Info.cpp.o
+[ 91%] Building CXX object src/pSimulateur/CMakeFiles/pSimulateur.dir/main.cpp.o
+Linking CXX executable ../../../bin/pSimulateur
+[ 91%] Built target pSimulateur
+Scanning dependencies of target pReglage_sonar
+[ 92%] Building CXX object src/pReglage_sonar/CMakeFiles/pReglage_sonar.dir/Reglage_sonar.cpp.o
+[ 93%] Building CXX object src/pReglage_sonar/CMakeFiles/pReglage_sonar.dir/Reglage_sonar_Info.cpp.o
+[ 94%] Building CXX object src/pReglage_sonar/CMakeFiles/pReglage_sonar.dir/main.cpp.o
+[ 95%] Building CXX object src/pReglage_sonar/CMakeFiles/pReglage_sonar.dir/sonar.cpp.o
+[ 96%] Building C object src/pReglage_sonar/CMakeFiles/pReglage_sonar.dir/localisation.c.o
+Linking CXX executable ../../../bin/pReglage_sonar
+[ 96%] Built target pReglage_sonar
+Scanning dependencies of target pAroundTheIsland
+[ 97%] Building CXX object src/pAroundTheIsland/CMakeFiles/pAroundTheIsland.dir/AroundTheIsland.cpp.o
+[ 98%] Building CXX object src/pAroundTheIsland/CMakeFiles/pAroundTheIsland.dir/AroundTheIsland_Info.cpp.o
+[ 99%] Building CXX object src/pAroundTheIsland/CMakeFiles/pAroundTheIsland.dir/AroundTheIsland_Tests.cpp.o
+[100%] Building CXX object src/pAroundTheIsland/CMakeFiles/pAroundTheIsland.dir/main.cpp.o
+Linking CXX executable ../../../bin/pAroundTheIsland
+[100%] Built target pAroundTheIsland
+yribex@yribex:~/workspace/moos-ivp-ENSTABretagne$ 
